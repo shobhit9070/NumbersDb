@@ -14,21 +14,19 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
 from django.conf.urls import url
-
-urlpatterns = [
-    path('admin/', admin.site.urls),
-]
 from django.urls import path, include
 from django.views.generic import TemplateView
 from django.contrib.auth.views import LogoutView
 from contact_details.views import *
 
+admin.autodiscover()
+admin.site.enable_nav_sidebar = False
+
 urlpatterns = [
-    #...
     url(r'^$', homepage, name='homepage'),
     path('accounts/', include('allauth.urls')),
     path('admin/', admin.site.urls),
     path('logout', LogoutView.as_view()),
+    url(r'^contact_list', contact_list, name='contact_list'),
 ]

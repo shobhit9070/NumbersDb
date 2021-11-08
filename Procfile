@@ -1,0 +1,1 @@
+web: gunicorn contactdb.wsgi --log-file -
