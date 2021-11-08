@@ -27,7 +27,7 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['aol-contacts-app.herokuapp.com']
+ALLOWED_HOSTS = ['aol-contacts-app.herokuapp.com', '127.0.0.1', ]
 
 
 # Application definition

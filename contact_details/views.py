@@ -18,7 +18,7 @@ def contact_list(request):
             if user.role == 'staff':
                 user_details = user_detail.objects.filter(email=request.user.email)
             elif user.role == 'dept_head':
-                user_details = user_detail.objects.filter(department=user.department)
+                user_details = user_detail.objects.filter( ~Q(role="admin"), department=user.department)
             else:
                 user_details = user_detail.objects.all()
             print(user_details.values())
