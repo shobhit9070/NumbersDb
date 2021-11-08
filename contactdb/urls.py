@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls import url
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -22,10 +23,11 @@ urlpatterns = [
 from django.urls import path, include
 from django.views.generic import TemplateView
 from django.contrib.auth.views import LogoutView
+from contact_details.views import *
 
 urlpatterns = [
     #...
-    path('', TemplateView.as_view(template_name="home_view.html")),
+    url(r'^$', homepage, name='homepage'),
     path('accounts/', include('allauth.urls')),
     path('admin/', admin.site.urls),
     path('logout', LogoutView.as_view()),
