@@ -3,3 +3,4 @@ from .models import *
 
 # Register your models here.
 admin.site.register(user_detail)
+admin.site.register(departments)
