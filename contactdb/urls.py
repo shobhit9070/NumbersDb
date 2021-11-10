@@ -25,8 +25,9 @@ admin.site.enable_nav_sidebar = False
 
 urlpatterns = [
     url(r'^$', homepage, name='homepage'),
-    path('accounts/', include('allauth.urls')),
+    url('^oauth/', include('social_django.urls', namespace='social')),
+    # path('accounts/', include('allauth.urls')),
     path('admin/', admin.site.urls),
-    path('logout', LogoutView.as_view()),
     url(r'^contact_list', contact_list, name='contact_list'),
+    url(r'^logout/$', auth_logout, name='auth_logout'),
 ]

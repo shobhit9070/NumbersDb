@@ -28,8 +28,8 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 DEBUG = True
 
 ALLOWED_HOSTS = ['aol-contacts-app.herokuapp.com', '127.0.0.1', ]
-
-
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '512877033277-j38qcp9r1chu3qdjl9qjr81v10cash8u.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
 # Application definition
 
 INSTALLED_APPS = [
@@ -41,11 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'contactdb',
     'django.contrib.sites',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
     'contact_details',
     'whitenoise.runserver_nostatic',
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -79,7 +77,8 @@ TEMPLATES = [
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend'
+    # 'allauth.account.auth_backends.AuthenticationBackend',
+    'social_core.backends.google.GoogleOAuth2',
 ]
 
 WSGI_APPLICATION = 'contactdb.wsgi.application'
@@ -163,7 +162,6 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
-SITE_ID = 7
 
 LOGIN_REDIRECT_URL = '/contact_list'
 LOGOUT_REDIRECT_URL = '/'

@@ -11,7 +11,7 @@ def homepage(request):
 
 def contact_list(request):
     if request.user.is_authenticated:
-        print(request.user.email)
+        print(request.user, "!@#$%^&*()")
         
         user = user_detail.objects.filter(email=request.user.email).first()
         if user != None:
@@ -30,3 +30,8 @@ def contact_list(request):
         return render(request, 'contact_list.html', context=data)
     else:
         return HttpResponseRedirect('/accounts/google/login/?next=/contact_list')
+
+
+def auth_logout(request):
+    logout(request)
+    return HttpResponseRedirect("/")

@@ -1,4 +1,3 @@
-{% load socialaccount %}
 <html>
     <head>
         <title>Home</title>
@@ -10,7 +9,7 @@
     <body>
         <div class="text-center py-5">
             <h3>Contacts database</h3>
-            <a class="btn btn-primary my-5" href="{% provider_login_url 'google' %}">Login With Google</a>
+            <a class="btn btn-primary my-5" href="/oauth/login/google-oauth2/?next=/contact_list">Login With Google</a>
         </div>
     </body>
 </html>
