@@ -5,6 +5,16 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 from django.http import HttpResponseRedirect
 
+##########HELPER FUNCTIONS START#################
+def validate_data_point(data):
+
+    return True
+
+
+#############HELPER FUNCTIONS END###################
+
+
+
 # Create your views here.
 def homepage(request):
     return render(request, 'home_view.html')
@@ -30,6 +40,10 @@ def contact_list(request):
         return render(request, 'contact_list.html', context=data)
     else:
         return HttpResponseRedirect('/accounts/google/login/?next=/contact_list')
+
+def upload_bulk_contacts(request):
+
+    return HttpResponseRedirect("/")
 
 
 def auth_logout(request):

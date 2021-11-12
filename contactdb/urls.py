@@ -30,4 +30,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^contact_list', contact_list, name='contact_list'),
     url(r'^logout/$', auth_logout, name='auth_logout'),
+    url(r'^upload_bulk_contacts/$', auth_logout, name='upload_bulk_contacts'),
 ]
