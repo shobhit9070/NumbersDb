@@ -4,11 +4,26 @@ from .models import *
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.http import HttpResponseRedirect
+import pandas as pd
+import openpyxl
+from io import BytesIO
+
+
+##########GLOBAL VARS#########
+
+role_choices = {
+    "Admin": "admin",
+    "Department head": "dept_head",
+    "Staff" : "staff"
+}
+
+##########GLOBAL VARS END##########
+
 
 ##########HELPER FUNCTIONS START#################
 def validate_data_point(data):
-
-    return True
+    #If not valid return False,"error message"
+    return True,"no error"
 
 
 #############HELPER FUNCTIONS END###################
@@ -39,11 +54,45 @@ def contact_list(request):
         }
         return render(request, 'contact_list.html', context=data)
     else:
-        return HttpResponseRedirect('/accounts/google/login/?next=/contact_list')
+        return HttpResponseRedirect('/oauth/login/google-oauth2/?next=/contact_list')
 
 def upload_bulk_contacts(request):
-
-    return HttpResponseRedirect("/")
+    if request.method != "POST" or not "fileInput" in request.FILES:
+        data = {
+            "status":0
+        }
+    else:
+        wb = openpyxl.load_workbook(request.FILES["fileInput"])
+        print(wb.sheetnames)
+        error_list = []
+        success_list = []
+        for sheet in wb.sheetnames:
+            worksheet = wb[sheet]
+            for row in worksheet.iter_rows():
+                row_data = list()
+                for cell in row:
+                    row_data.append(str(cell.value))
+                print(row_data)
+                is_valid, reason = validate_data_point(row_data)
+                if not is_valid:
+                    error_list.append((row_data,reason))
+                    continue
+                elif user_detail.objects.filter(phno = row_data[1].split('.')[0]).exists():
+                    error_list.append((row_data,"entry with same phno exists"))
+                else:
+                    new_user_detail = user_detail(name=row_data[0],phno=row_data[1].split('.')[0],email=row_data[2])
+                    print("dept ",row_data[3].lower().strip())
+                    new_user_detail.department = departments.objects.get(name=row_data[3].lower().strip())
+                    new_user_detail.role =  role_choices[row_data[4]]
+                    new_user_detail.save()
+                    success_list.append((row_data,"Success"))
+        data = {
+            "status":1,
+            "error_list":error_list,
+            "success_list":success_list
+        }
+        print(data)
+    return render(request, 'contacts_upload_status.html', context=data)
 
 
 def auth_logout(request):

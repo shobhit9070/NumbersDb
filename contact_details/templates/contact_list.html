@@ -29,7 +29,8 @@
                     <p>Your are logged in with your email address - {{user.email}}</p>
                 </div>
                 <div style="float: right;">
-                    <form action="/upload_bulk_data" method = "POST">
+                    <form action="/upload_bulk_contacts/" method = "POST" enctype="multipart/form-data">
+                        {% csrf_token %}
                         <input type="file" name="fileInput" id="fileInput" />
                         <input type="submit" value = "Upload data" disabled/>
                     </form>
