@@ -24,11 +24,11 @@ admin.autodiscover()
 admin.site.enable_nav_sidebar = False
 
 urlpatterns = [
-    url(r'^$', homepage, name='homepage'),
+    url(r'^$', contact_list, name='contact_list'),
     url('^oauth/', include('social_django.urls', namespace='social')),
     # path('accounts/', include('allauth.urls')),
     path('admin/', admin.site.urls),
     url(r'^contact_list', contact_list, name='contact_list'),
     url(r'^logout/$', auth_logout, name='auth_logout'),
-    url(r'^upload_bulk_contacts/$', auth_logout, name='upload_bulk_contacts'),
+    url(r'^upload_bulk_contacts/$', upload_bulk_contacts, name='upload_bulk_contacts'),
 ]

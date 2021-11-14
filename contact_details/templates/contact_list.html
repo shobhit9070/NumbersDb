@@ -40,7 +40,8 @@
                     </div>
                     {% if role == "admin" %}
                     <div style="float: right;">
-                        <form action="/upload_bulk_data" method = "POST">
+                        <form action="/upload_bulk_contacts/" method = "POST" enctype="multipart/form-data">
+                            {% csrf_token %}
                             <input type="file" name="fileInput" id="fileInput" />
                             <input class="btn btn-outline-primary" type="submit" value="Upload data" disabled/>
                         </form>
