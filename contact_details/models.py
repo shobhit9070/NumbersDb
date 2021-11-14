@@ -2,31 +2,43 @@ from django.db import models
 
 # Create your models here.
 
-class departments(models.Model):
+class trust(models.Model):
     name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
 
+class department(models.Model):
+    name = models.CharField(max_length=100)
+    trust = models.ForeignKey(trust, null=True, on_delete=models.SET_NULL)
+
+    def __str__(self):
+        return self.name
+
+class relation_table(models.Model):
+    relations = (
+        ("all", "All"),
+        ("dept_trust", "Departments under a trust"),
+        ("dept_staff", "Departmental staff"),
+        ("self", "Self")
+    )
+    admin = models.CharField(max_length=20, choices=relations, default="all")
+    trustee = models.CharField(max_length=20, choices=relations, default="dept_trust")
+    dept_head = models.CharField(max_length=20, choices=relations, default="dept_staff")
+    staff = models.CharField(max_length=20, choices=relations, default="self")
+
 class user_detail(models.Model):
     role_choices = (
         ("admin", "Admin"),
-        ("dept_head", "Department head"),
-        ("staff", "Staff"),
-    )
-    department_choices = (
-        ("admin", "Admin"),
-        ("kitchen", "Kitchen"),
-        ("goshala", "Goshala")
+        ("trustee", "Trustee"),
+        ("dept_head", "Head of Department"),
+        ("staff", "Staff")
     )
     email = models.CharField(max_length=255, blank=True, null=True)
     name = models.CharField(max_length=255, blank=True, null=True)
-    phno = models.CharField(max_length=12)
+    phno = models.CharField(max_length=10, unique=True)
     role = models.CharField(max_length=20, choices=role_choices, default="staff")
-    department = models.ForeignKey(departments, on_delete=models.SET_NULL, null=True )
+    department = models.ForeignKey(department, on_delete=models.SET_NULL, null=True )
     
-    class Meta:
-        db_table = "User Detail"
-
     def __str__(self):
         return self.name
