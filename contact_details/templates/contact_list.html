@@ -33,13 +33,13 @@
             </div>
             <div class="p-5">
                 <div class="row">
-                    <div class="float-left text-capitalize">
+                    <div class="col-6">
                         <p><b>Email: </b>{{user.email}}</p>
-                        <p><b>Role: </b>{{role}}</p>
-                        <p><b>Department: </b>{{dept}}</p>
+                        <p class="text-capitalize"><b>Role: </b>{{role}}</p>
+                        <p class="text-capitalize"><b>Department: </b>{{dept}}</p>
                     </div>
                     {% if role == "admin" %}
-                    <div style="float: right;">
+                    <div class="col-6 align-center">
                         <form action="/upload_bulk_contacts/" method = "POST" enctype="multipart/form-data">
                             {% csrf_token %}
                             <input type="file" name="fileInput" id="fileInput" />

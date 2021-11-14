@@ -12,9 +12,9 @@ from io import BytesIO
 ##########GLOBAL VARS#########
 
 role_choices = {
-    "Admin": "admin",
-    "Department head": "dept_head",
-    "Staff" : "staff"
+    "admin": "admin",
+    "department head": "dept_head",
+    "staff" : "staff"
 }
 
 ##########GLOBAL VARS END##########
@@ -85,6 +85,7 @@ def upload_bulk_contacts(request):
         for sheet in wb.sheetnames:
             worksheet = wb[sheet]
             for row in worksheet.iter_rows():
+                print(str(row[0].row))
                 row_data = list()
                 for cell in row:
                     row_data.append(str(cell.value))
@@ -94,18 +95,18 @@ def upload_bulk_contacts(request):
                     error_list.append((row_data,reason))
                     continue
                 elif user_detail.objects.filter(phno = row_data[1].split('.')[0]).exists():
-                    error_list.append((row_data,"entry with same phno exists"))
+                    error_list.append({'data': row_data, 'status': "Entry with same phone number already exists", "row_idx": str(row[0].row)})
                 else:
                     new_user_detail = user_detail(name=row_data[0],phno=row_data[1].split('.')[0],email=row_data[2])
                     print("dept ",row_data[3].lower().strip())
-                    new_user_detail.department = departments.objects.get(name=row_data[3].lower().strip())
-                    new_user_detail.role =  role_choices[row_data[4]]
+                    new_user_detail.department = department.objects.get(name=row_data[3].lower().strip())
+                    new_user_detail.role =  role_choices[row_data[4].lower().strip()]
                     new_user_detail.save()
-                    success_list.append((row_data,"Success"))
+                    success_list.append({'data': row_data, 'status': "Success", "row_idx": str(row[0].row)})
         data = {
-            "status":1,
-            "error_list":error_list,
-            "success_list":success_list
+            "status": 1,
+            "error_list": error_list,
+            "success_list": success_list
         }
         print(data)
     return render(request, 'contacts_upload_status.html', context=data)
