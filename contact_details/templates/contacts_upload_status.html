@@ -11,6 +11,7 @@
                     <th scope="col">Email</th>
                     <th scope="col">Role</th>
                     <th scope="col">Department</th>
+                    <th scope="col">Trust</th>
                     <th scope="col">Error message</th>
                 </tr>
             </thead>
@@ -23,6 +24,7 @@
                     <td>{{detail.data.2}}</td>
                     <td>{{detail.data.3}}</td>
                     <td class="text-capitalize">{{detail.data.4}}</td>
+                    <td class="text-capitalize">{{detail.data.5}}</td>
                     <td class="text-capitalize">{{detail.status}}</td>
                 </tr>
                 {% endfor %}
@@ -39,20 +41,20 @@
                     <th scope="col">Role</th>
                     <th scope="col">Department</th>
                     <th scope="col">Trust</th>
-                    <th scope="col">Status</th>
+                    <th scope="col">Error message</th>
                 </tr>
             </thead>
             <tbody>
                 {% for detail in success_list %}
                 <tr>
-                    <th scope="row">{{forloop.counter}}</th>
-                    <td class="text-capitalize">{{detail.name}}</td>
-                    <td>{{detail.phno}}</td>
-                    <td>{{detail.email}}</td>
-                    <td>{{detail.get_role_display}}</td>
-                    <td class="text-capitalize">{{detail.department.name}}</td>
-                    <td class="text-capitalize">{{detail.department.trust}}</td>
-                    <td class="text-capitalize">{{detail.1}}</td>
+                    <th scope="row">{{detail.row_idx}}</th>
+                    <td class="text-capitalize">{{detail.data.0}}</td>
+                    <td>{{detail.data.1}}</td>
+                    <td>{{detail.data.2}}</td>
+                    <td>{{detail.data.3}}</td>
+                    <td class="text-capitalize">{{detail.data.4}}</td>
+                    <td class="text-capitalize">{{detail.data.5}}</td>
+                    <td class="text-capitalize">{{detail.status}}</td>
                 </tr>
                 {% endfor %}
             </tbody>
