@@ -1,2 +1,3 @@
 web: gunicorn contactdb.wsgi --log-file -
-release: rake db:migrate
+release: python manage.py makemigrations
+release: python manage.py migrate
