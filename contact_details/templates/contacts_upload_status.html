@@ -1,0 +1,64 @@
+{% extends "header.html" %}
+{% block content %}       
+    <div class="container my-5">
+        <h4 class="text-danger">Error occured while adding these data</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Row number</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Phno</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Department</th>
+                    <th scope="col">Trust</th>
+                    <th scope="col">Error message</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for detail in error_list %}
+                <tr>
+                    <th scope="row">{{detail.row_idx}}</th>
+                    <td class="text-capitalize">{{detail.data.0}}</td>
+                    <td>{{detail.data.1}}</td>
+                    <td>{{detail.data.2}}</td>
+                    <td>{{detail.data.3}}</td>
+                    <td class="text-capitalize">{{detail.data.4}}</td>
+                    <td class="text-capitalize">{{detail.data.5}}</td>
+                    <td class="text-capitalize">{{detail.status}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <h4 class="text-success mt-5">Successfully added data</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Row number</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Phno</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Department</th>
+                    <th scope="col">Trust</th>
+                    <th scope="col">Error message</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for detail in success_list %}
+                <tr>
+                    <th scope="row">{{detail.row_idx}}</th>
+                    <td class="text-capitalize">{{detail.data.0}}</td>
+                    <td>{{detail.data.1}}</td>
+                    <td>{{detail.data.2}}</td>
+                    <td>{{detail.data.3}}</td>
+                    <td class="text-capitalize">{{detail.data.4}}</td>
+                    <td class="text-capitalize">{{detail.data.5}}</td>
+                    <td class="text-capitalize">{{detail.status}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

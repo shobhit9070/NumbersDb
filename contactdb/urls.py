@@ -28,7 +28,7 @@ urlpatterns = [
     url('^oauth/', include('social_django.urls', namespace='social')),
     # path('accounts/', include('allauth.urls')),
     path('admin/', admin.site.urls),
-    url(r'^contact_list', contact_list, name='contact_list'),
+    # url(r'^contact_list', contact_list, name='contact_list'),
     url(r'^logout/$', auth_logout, name='auth_logout'),
     url(r'^upload_bulk_contacts/$', upload_bulk_contacts, name='upload_bulk_contacts'),
 ]
