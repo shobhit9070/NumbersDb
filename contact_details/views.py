@@ -37,6 +37,7 @@ def validate_data_point(data):
     if len(data) == 6 and not trust.objects.filter(name=data[5].lower().strip()).exists():
         new_trust = trust(name=data[5].lower().strip())
         new_trust.save()
+    
     if not department.objects.filter(name=data[4].lower().strip()).exists():
         new_dept = department(name=data[4].lower().strip(), trust=new_trust)
         new_dept.save()
@@ -67,9 +68,11 @@ def contact_list(request):
                 user_details = user_detail.objects.all()
         else:
             user_details = []
+        all_depts = department.objects.all()
         data = {
             'user_details': user_details,
             'curr_user': user,
+            'all_depts': all_depts,
         }
         return render(request, 'contact_list.html', context=data)
     else:

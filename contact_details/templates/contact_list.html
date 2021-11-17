@@ -8,10 +8,31 @@
         .page-link:focus{
             color: black !important;
         }
+        #file-upload-button {
+            background: transparent !important;
+        }
+        select{
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            padding: 20px;
+        }
+        .dept_select {
+            border: none;
+            border-bottom: 1px solid #ced4da !important; 
+            /* background: #FFBB33 !important; */
+        }
+
+        
     </style>    
     <script>
         $(document).ready(
         function(){
+            const actualBtn = document.getElementById('fileInput');
+            const fileChosen = document.getElementById('file_display');
+            actualBtn.addEventListener('change', function(){
+                fileChosen.textContent = this.files[0].name
+            })
             $('input:file').change(
                 function(){
                     if ($(this).val()) {
@@ -22,21 +43,23 @@
         });
     </script>
         
-    <div class="p-5">
+    <div class="py-5 p-md-5">
         {% if user.is_authenticated %}
-        <div class="row px-5">
-            <div class="col-6">
+        <div class="row px-md-5">
+            <div class="col-12 col-md-6">
                 <p><b>Email: </b>{{user.email}}</p>
                 <p class="text-capitalize"><b>Role: </b>{{curr_user.role}}</p>
                 <p class="text-capitalize"><b>Department: </b>{{curr_user.department.name}}</p>
                 <p class="text-capitalize"><b>Trust: </b>{{curr_user.department.trust.name}}</p>
             </div>
             {% if curr_user.role == "admin" %}
-            <div class="col-6 align-center">
+            <div class="col-12 col-md-6 align-center mt-5 mt-md-0">
+                <form action="/upload_bulk_contacts/" method = "POST" enctype="multipart/form-data" class="text-center">
                 <h5>Upload data</h5>
-                <form action="/upload_bulk_contacts/" method = "POST" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <input type="file" name="fileInput" id="fileInput" />
+                {% csrf_token %}
+                    <input type="file" name="fileInput" id="fileInput" hidden/>
+                    <label for="fileInput" class="btn btn-primary">Choose File</label>
+                    <span id="file_display" class="pr-5">No file chosen</span>
                     <input class="btn btn-warning" type="submit" value="Upload data" disabled/>
                 </form>
             </div>
@@ -46,26 +69,31 @@
         <hr />
         {% if user_details %}
         <h3 class="text-center my-4">List of Contacts</h3>
-        <div class="row w-75 mx-auto">
-            <div class="col">
+        <div class="row w-md-75 mx-auto">
+            <div class="col-12 col-md-6">
                 <div class="md-form">
                     <i class="fas fa-search amber-text prefix"></i>
                     <input class="form-control" id="search_by_name" type="text">
                     <label for="search_by_name">Search by Name..</label>
                 </div>
             </div>
-        
-        <div class="col">
-            <div class="md-form">
-                <i class="fas fa-search amber-text prefix"></i>    
-                <input class="form-control" id="search_by_dept" type="text">
-                <label for="search_by_dept">Search by Department..</label>
+            <div class="col-12 col-md-6">
+                <div class="md-form">
+                    <i class="fas fa-search amber-text prefix"></i>    
+                    <select class="ml-5 custom-select dept_select form-control" id="search_by_dept">
+                        <option class="ml-5" value="0" disabled selected>Search by Department</option>
+                        <option class="ml-5" value="">None</option>
+                        {% for dept in all_depts %}
+                            <option class="ml-5 text-capitalize" value="{{dept.name}}">{{dept.name}}</option>
+                        {% endfor %}
+                    </select>
+                    <!-- <input class="form-control" id="search_by_dept" type="text"> -->
+                    <!-- <label for="search_by_dept">Search by Department..</label> -->
+                </div>
             </div>
         </div>
         
-        </div>
-        
-        <table class="table" id="contact_table">
+        <table class="table table-responsive w-100 d-block d-md-table" id="contact_table">
             <thead>
                 <tr>
                     <th scope="col">#</th>
@@ -82,7 +110,7 @@
                 <tr>
                     <th class="py-3" scope="row">{{forloop.counter}}</th>
                     <td class="py-3 text-capitalize">{{detail.name}}</td>
-                    <td class="py-3">{{detail.phno}}</td>
+                    <td class="py-3"><a href="tel:{{detail.phno}}">{{detail.phno}}</a></td>
                     <td class="py-3">{{detail.email}}</td>
                     <td class="py-3">{{detail.get_role_display}}</td>
                     <td class="py-3 text-capitalize">{{detail.department.name}}</td>
@@ -118,7 +146,7 @@
                     }
                 });
             });
-            $("#search_by_dept").on("keyup", function() {
+            $("#search_by_dept").on("change", function() {
                 var value = $(this).val().toLowerCase();
                 $("table tbody tr").each(function(){
                     $row = $(this);
