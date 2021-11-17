@@ -33,14 +33,10 @@ def validate_data_point(data):
     #     return False, "Invalid email address"
     if not data[3].lower().strip() in role_choices:
         return False, "Invalid role - '" + data[3] + "'. Valid options are " + str(list(role_choices.keys()))
-    new_trust = None
     if len(data) == 6 and not trust.objects.filter(name=data[5].lower().strip()).exists():
-        new_trust = trust(name=data[5].lower().strip())
-        new_trust.save()
-    
+        return False, "Trust - '" + data[5] + "' is invalid"
     if not department.objects.filter(name=data[4].lower().strip()).exists():
-        new_dept = department(name=data[4].lower().strip(), trust=new_trust)
-        new_dept.save()
+        return False, "Department - '" + data[4] + "' is invalid"
     return True,"no error"
 
 def sanitize_phno(phno):
