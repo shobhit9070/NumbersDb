@@ -55,13 +55,19 @@
             {% if curr_user.role == "admin" %}
             <div class="col-12 col-md-6 align-center mt-5 mt-md-0">
                 <form action="/upload_bulk_contacts/" method = "POST" enctype="multipart/form-data" class="text-center">
-                <h5>Upload data</h5>
+                <h5 class="mb-3">Upload data</h5>
                 {% csrf_token %}
-                    <input type="file" name="fileInput" id="fileInput" hidden/>
-                    <label for="fileInput" class="btn btn-primary">Choose File</label>
-                    <span id="file_display" class="pr-5">No file chosen</span>
-                    <input class="btn btn-warning" type="submit" value="Upload data" disabled/>
-                </form>
+                <div class="row">
+                    <div class="col-8  p-0 px-md-3">
+                        <input type="file" name="fileInput" id="fileInput" hidden/>
+                        <label for="fileInput" class="btn btn-primary py-2 px-3 py-md-3 px-md-4">Choose File</label>
+                        <span id="file_display" class="pr-0">No file chosen</span>
+                    </div>    
+                    <div class="col-4 p-0 px-md-3">
+                        <input class="btn btn-warning py-2 px-3 py-md-3 px-md-4" type="submit" value="Upload data" disabled/>
+                    </div>
+                </div>
+            </form>
             </div>
             {% endif %}
         </div>
@@ -81,7 +87,7 @@
             <div class="col-12 col-md-6">
                 <div class="md-form">
                     <i class="fas fa-search amber-text prefix"></i>    
-                    <select class="ml-5 custom-select dept_select form-control" id="search_by_dept">
+                    <select class="ml-5 custom-select dept_select form-control" style="width: 87%" id="search_by_dept">
                         <option class="ml-5" value="0" disabled selected>Search by Department</option>
                         <option class="ml-5" value="">None</option>
                         {% for dept in all_depts %}
