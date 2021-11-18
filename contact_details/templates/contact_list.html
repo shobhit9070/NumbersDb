@@ -122,10 +122,11 @@
                     <label for="search_by_name">Search by Name..</label>
                 </div>
             </div>
+            {% if curr_user.role == 'admin' or curr_user.role == 'trustee' %}
             <div class="col-12 col-md-6">
                 <div class="md-form">
                     <i class="fas fa-search amber-text prefix"></i>    
-                    <select class="ml-5 custom-select dept_select form-control" id="search_by_dept">
+                    <select class="ml-5 custom-select dept_select form-control" style="width: 87%" id="search_by_dept">
                         <option class="ml-5" value="0" disabled selected>Search by Department</option>
                         <option class="ml-5" value="">None</option>
                         {% for dept in all_depts %}
@@ -136,6 +137,7 @@
                     <!-- <label for="search_by_dept">Search by Department..</label> -->
                 </div>
             </div>
+            {% endif %}
         </div>
         
         <table class="table table-responsive w-100 d-block d-md-table" id="contact_table">
