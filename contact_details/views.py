@@ -33,7 +33,7 @@ def validate_data_point(data):
     #     return False, "Invalid email address"
     if not data[3].lower().strip() in role_choices:
         return False, "Invalid role - '" + data[3] + "'. Valid options are " + str(list(role_choices.keys()))
-    if len(data) == 6 and not trust.objects.filter(name=data[5].lower().strip()).exists():
+    if len(data) > 5 and not trust.objects.filter(name=data[5].lower().strip()).exists():
         return False, "Trust - '" + data[5] + "' is invalid"
     if not department.objects.filter(name=data[4].lower().strip()).exists():
         return False, "Department - '" + data[4] + "' is invalid"
@@ -52,7 +52,7 @@ def contact_list(request):
     if request.user.is_authenticated:
         user = user_detail.objects.filter(email=request.user.email).first()
         if user != None:
-            relation_rule = relation_table.objects.all().values()[0]
+            relation_rule = relation_table.objects.all().values()[0]#TODO:Add failsafes everywhere
             print(relation_rule)
             if relation_rule[user.role] == 'self':
                 user_details = [user]
@@ -88,7 +88,6 @@ def upload_bulk_contacts(request):
             for sheet in wb.sheetnames:
                 worksheet = wb[sheet]
                 for row in worksheet.iter_rows():
-                    print(str(row[0].row))
                     row_data = list()
                     for cell in row:
                         row_data.append(str(cell.value))
@@ -116,6 +115,36 @@ def upload_bulk_contacts(request):
     else:
         return HttpResponseRedirect('/oauth/login/google-oauth2/?next=/')
 
+def upload_bulk_contacts(request):
+    if request.user.is_authenticated:
+        if request.method != "POST":
+            data = {
+                "status":0
+            }
+        else:
+            error_list = []
+            success_list = []
+            dept = user_detail.objects.get(email=request.user.email).department
+            row_data = [request.POST['name'],request.POST['phno'],request.POST['email'],request.POST['role'],dept.name]  #Needed in this format to multiplex using validate function
+            is_valid, reason = validate_data_point(row_data)
+            if not is_valid:
+                error_list.append({'data': row_data, 'status': reason, "row_idx": str(1)})
+            elif user_detail.objects.filter(phno = sanitize_phno(request.POST['phno'].split('.')[0])).exists():
+                error_list.append({'data': row_data, 'status': "Entry with same phone number already exists", "row_idx": str(1)})
+            else:
+                new_user_detail = user_detail(name=request.POST['name'],phno=sanitize_phno(request.POST['phno']),email=request.POST['email'])
+                new_user_detail.department = dept
+                new_user_detail.role =  role_choices[request.POST['role'].lower().strip()]
+                new_user_detail.save()
+                success_list.append({'data': row_data, 'status': "Successfully added", "row_idx": str(1)})
+            data = {
+                "status": 1,
+                "error_list": error_list,
+                "success_list": success_list
+            }
+        return render(request, 'contacts_upload_status.html', context=data)
+    else:
+        return HttpResponseRedirect('/oauth/login/google-oauth2/?next=/')       
 
 def auth_logout(request):
     print("logout", request.user.is_authenticated)

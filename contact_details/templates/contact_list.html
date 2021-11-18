@@ -53,15 +53,60 @@
                 <p class="text-capitalize"><b>Trust: </b>{{curr_user.department.trust.name}}</p>
             </div>
             {% if curr_user.role == "admin" %}
-            <div class="col-12 col-md-6 align-center mt-5 mt-md-0">
-                <form action="/upload_bulk_contacts/" method = "POST" enctype="multipart/form-data" class="text-center">
-                <h5>Upload data</h5>
-                {% csrf_token %}
-                    <input type="file" name="fileInput" id="fileInput" hidden/>
-                    <label for="fileInput" class="btn btn-primary">Choose File</label>
-                    <span id="file_display" class="pr-5">No file chosen</span>
-                    <input class="btn btn-warning" type="submit" value="Upload data" disabled/>
-                </form>
+            <div class="col-12 col-md-6 align-center mt-5 mt-md-0  text-center">
+                <h5 class="text-center">Upload Data</h5>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                   Upload Data
+                  </button>
+                  
+                  <!-- Modal -->
+                  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered w-75" role="document">
+                      <div class="modal-content w-100">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLongTitle">Upload Data</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                            <h4 class="text-center">Upload bulk data</h4>
+                            <form action="/upload_bulk_contacts/" method = "POST" enctype="multipart/form-data" class="text-center w-100">
+                                {% csrf_token %}
+                                    <input type="file" name="fileInput" id="fileInput" hidden/>
+                                    <label for="fileInput" class="btn btn-primary">Choose File</label>
+                                    <span id="file_display" class="">No file chosen</span>
+                                    <input class="btn btn-warning" type="submit" value="Upload data" disabled/>
+                                </form>
+                                <h4 class="text-center mt-5">OR <br/> Add Details</h4>
+                                <form action="/upload_single_contact/" method = "POST" enctype="multipart/form-data" class="text-center px-3">
+                                    {% csrf_token %}
+                                    <div class="md-form">
+                                        <input class="form-control" id="name" name="name" type="text">
+                                        <label for="search_by_name">Name</label>
+                                    </div>
+                                    <div class="md-form">
+                                        <input class="form-control" id="phno" name="phno" type="text">
+                                        <label for="search_by_name">Phone number</label>
+                                    </div>
+                                    <div class="md-form">
+                                        <input class="form-control" id="email" name="email" type="text">
+                                        <label for="search_by_name">Email</label>
+                                    </div>
+                                    <div class="md-form">
+                                        <select class="custom-select dept_select form-control" id="role" name="role">
+                                            <option class="ml-5" value="" disabled selected>Select a role</option>
+                                            <option class="ml-5" value="staff">Staff</option>
+                                            <!-- <option class="ml-5 text-capitalize" value="{{dept.name}}">{{dept.name}}</option> -->
+                                        </select>
+                                    </div>
+                                    <input class="btn btn-warning" type="submit" value="Upload data"/>
+                                </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                
             </div>
             {% endif %}
         </div>
