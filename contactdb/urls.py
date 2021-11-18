@@ -31,5 +31,5 @@ urlpatterns = [
     # url(r'^contact_list', contact_list, name='contact_list'),
     url(r'^logout/$', auth_logout, name='auth_logout'),
     url(r'^upload_bulk_contacts/$', upload_bulk_contacts, name='upload_bulk_contacts'),
-    url(r'^upload_single_contact/$', upload_bulk_contacts, name='upload_bulk_contacts'),
+    url(r'^upload_single_contact/$', upload_single_contact, name='upload_single_contact'),
 ]

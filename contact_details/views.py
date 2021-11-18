@@ -115,7 +115,7 @@ def upload_bulk_contacts(request):
     else:
         return HttpResponseRedirect('/oauth/login/google-oauth2/?next=/')
 
-def upload_bulk_contacts(request):
+def upload_single_contact(request):
     if request.user.is_authenticated:
         if request.method != "POST":
             data = {
@@ -124,7 +124,7 @@ def upload_bulk_contacts(request):
         else:
             error_list = []
             success_list = []
-            dept = user_detail.objects.get(email=request.user.email).department
+            dept = user_detail.objects.filter(email=request.user.email).first().department
             row_data = [request.POST['name'],request.POST['phno'],request.POST['email'],request.POST['role'],dept.name]  #Needed in this format to multiplex using validate function
             is_valid, reason = validate_data_point(row_data)
             if not is_valid:
@@ -147,8 +147,6 @@ def upload_bulk_contacts(request):
         return HttpResponseRedirect('/oauth/login/google-oauth2/?next=/')       
 
 def auth_logout(request):
-    print("logout", request.user.is_authenticated)
     logout(request)
-    print("logout", request.user.is_authenticated)
 
     return HttpResponseRedirect("/")
