@@ -3,7 +3,7 @@ from django.contrib.auth import logout
 from .models import *
 from django.contrib.auth.models import User
 from django.db.models import Q
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect,HttpResponse
 import pandas as pd
 import openpyxl
 from io import BytesIO
@@ -145,6 +145,9 @@ def upload_bulk_contacts(request):
         return render(request, 'contacts_upload_status.html', context=data)
     else:
         return HttpResponseRedirect('/oauth/login/google-oauth2/?next=/')       
+
+def keep_awake(request):
+    return HttpResponse('')
 
 def auth_logout(request):
     print("logout", request.user.is_authenticated)
