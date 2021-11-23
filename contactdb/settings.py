@@ -25,7 +25,7 @@ SECRET_KEY = 'cu99h#jq!p0vuxgaisjc3xql)qis0-m1sk&mer=r&t1v4)nvz-'
 EMAIL_HOST_USER = 'harshi2680@gmail.com'
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['aol-contacts-app.herokuapp.com', '127.0.0.1', ]
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '512877033277-j38qcp9r1chu3qdjl9qjr81v10cash8u.apps.googleusercontent.com'
