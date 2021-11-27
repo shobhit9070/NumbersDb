@@ -33,7 +33,8 @@ def validate_data_point(data):
     #     return False, "Invalid email address"
     if not data[3].lower().strip() in role_choices:
         return False, "Invalid role - '" + data[3] + "'. Valid options are " + str(list(role_choices.keys()))
-    if len(data) > 5 and not trust.objects.filter(name=data[5].lower().strip()).exists():
+    print(data[5])
+    if len(data) > 5 and data[5]!='None' and data[5]!='' and data[5]!=None and not trust.objects.filter(name=data[5].lower().strip()).exists():
         return False, "Trust - '" + data[5] + "' is invalid"
     if not department.objects.filter(name=data[4].lower().strip()).exists():
         return False, "Department - '" + data[4] + "' is invalid"
@@ -92,6 +93,7 @@ def upload_bulk_contacts(request):
                     for cell in row:
                         row_data.append(str(cell.value))
                     print(row_data)
+                    row_data[1] = row_data[1].split('.')[0]
                     is_valid, reason = validate_data_point(row_data)
                     if not is_valid:
                         error_list.append({'data': row_data, 'status': reason, "row_idx": str(row[0].row)})
@@ -147,7 +149,7 @@ def upload_single_contact(request):
         return HttpResponseRedirect('/oauth/login/google-oauth2/?next=/')       
 
 def keep_awake(request):
-    return HttpResponse('')
+    return HttpResponse(status=204)
 
 def auth_logout(request):
     logout(request)
