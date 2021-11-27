@@ -163,8 +163,11 @@
                 <tr>
                     <th class="py-3" scope="row">{{forloop.counter}}</th>
                     <td class="py-3 text-capitalize">{{detail.name}}</td>
-                    <td class="py-3"><a href="tel:{{detail.phno}}">{{detail.phno}}</a></td>
-                    <td class="py-3">{{detail.email}}</td>
+                    <td class="py-3"><span class="mr-1">{{detail.phno}}</span>
+                        <a href="tel:{{detail.phno}}" class="mx-1 mx-md-1" style="color: rgb(36, 166, 253)"><i style="color: rgb(0, 174, 255);"class="fas fa-phone fa-2x my-3"></i></a>
+                        <a href="https://wa.me/{{detail.phno}}" class="mx-1 mx-md-1" style="color: rgb(36, 166, 253)"><i style="color: rgb(36, 253, 47);"class="fab fa-whatsapp fa-2x my-3"></i></a>
+                    </td>
+                    <td class="py-3"><a href="mailto:{{detail.email}}" style="color: rgb(36, 166, 253)"><span>{{detail.email}}</span><i class="fas fa-envelope ml-2 fa-2x"></i></a></td>
                     <td class="py-3">{{detail.get_role_display}}</td>
                     <td class="py-3 text-capitalize">{{detail.department.name}}</td>
                     <td class="py-3 text-capitalize">{{detail.department.trust}}</td>
