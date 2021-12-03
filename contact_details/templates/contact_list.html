@@ -58,7 +58,7 @@
                 <p class="text-capitalize"><b>Department: </b>{{curr_user.department.name}}</p>
                 <p class="text-capitalize"><b>Trust: </b>{{curr_user.department.trust.name}}</p>
             </div>
-            {% if curr_user.role == "admin" %}
+            {% if curr_user.role == "admin" or curr_user.role == "location_admin"%}
             <div class="col-12 col-md-6 align-center mt-5 mt-md-0  text-center">
                 <h5 class="text-center">Upload Data</h5>
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
@@ -128,7 +128,7 @@
                     <label for="search_by_name">Search by Name..</label>
                 </div>
             </div>
-            {% if curr_user.role == 'admin' or curr_user.role == 'trustee' %}
+            {% if curr_user.role == 'admin' or curr_user.role == 'trustee' or curr_user.role == 'location_admin' %}
             <div class="col-12 col-md-6">
                 <div class="md-form">
                     <i class="fas fa-search amber-text prefix"></i>    

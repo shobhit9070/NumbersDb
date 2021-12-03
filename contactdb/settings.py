@@ -15,7 +15,7 @@ import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static/js', 'serviceworker.js')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
@@ -25,9 +25,9 @@ SECRET_KEY = 'cu99h#jq!p0vuxgaisjc3xql)qis0-m1sk&mer=r&t1v4)nvz-'
 EMAIL_HOST_USER = 'harshi2680@gmail.com'
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['aol-contacts-app.herokuapp.com', '127.0.0.1', ]
+ALLOWED_HOSTS = ['*']
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '512877033277-j38qcp9r1chu3qdjl9qjr81v10cash8u.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
 # Application definition
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'contact_details',
     'whitenoise.runserver_nostatic',
     'social_django',
+    'pwa',
 ]
 
 MIDDLEWARE = [
@@ -169,3 +170,35 @@ LOGOUT_REDIRECT_URL = '/'
 SITE_ID=1
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
+###########PWA#######
+PWA_APP_NAME = 'Art Of Living Contacts'
+PWA_APP_DESCRIPTION = "Art Of Living Contacts PWA"
+PWA_APP_THEME_COLOR = '#000000'
+PWA_APP_BACKGROUND_COLOR = '#ffffff'
+PWA_APP_DISPLAY = 'standalone'
+PWA_APP_SCOPE = '/'
+PWA_APP_ORIENTATION = 'any'
+PWA_APP_START_URL = '/'
+PWA_APP_STATUS_BAR_COLOR = 'default'
+PWA_APP_ICONS = [
+	{
+		'src': 'static/images/icon-160x160.png',
+		'sizes': '160x160'
+	}
+]
+PWA_APP_ICONS_APPLE = [
+	{
+		'src': 'static/images/icon-160x160.png',
+		'sizes': '160x160'
+	}
+]
+PWA_APP_SPLASH_SCREEN = [
+	{
+		'src': 'static/images/icon.png',
+		'media': '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)'
+	}
+]
+PWA_APP_DIR = 'ltr'
+PWA_APP_LANG = 'en-US'

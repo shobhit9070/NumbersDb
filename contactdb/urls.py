@@ -33,4 +33,5 @@ urlpatterns = [
     url(r'^keep_awake/$', keep_awake, name='keep_awake'),
     url(r'^upload_bulk_contacts/$', upload_bulk_contacts, name='upload_bulk_contacts'),
     url(r'^upload_single_contact/$', upload_single_contact, name='upload_single_contact'),
+    path('', include('pwa.urls')),
 ]

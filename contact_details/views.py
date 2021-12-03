@@ -61,6 +61,8 @@ def contact_list(request):
                 user_details = user_detail.objects.filter(role='staff', department=user.department)
             elif relation_rule[user.role] == 'dept_trust':
                 user_details = user_detail.objects.filter(role__in=['dept_head', 'staff'], department__in=department.objects.filter(trust=user.department.trust))
+            elif relation_rule[user.role] == 'loc_depts':
+                user_details = user_detail.objects.filter(location=user.department.location)
             elif relation_rule[user.role] == 'all':
                 user_details = user_detail.objects.all()
         else:
@@ -102,8 +104,9 @@ def upload_bulk_contacts(request):
                         error_list.append({'data': row_data, 'status': "Entry with same phone number already exists", "row_idx": str(row[0].row)})
                     else:
                         new_user_detail = user_detail(name=row_data[0],phno=sanitize_phno(row_data[1].split('.')[0]),email=row_data[2])
-                        print("dept ",row_data[4].lower().strip())
-                        new_user_detail.department = department.objects.get(name=row_data[4].lower().strip())
+                        dept = department.objects.get(name=row_data[4].lower().strip())
+                        new_user_detail.department = dept
+                        new_user_detail.location = dept.location
                         new_user_detail.role =  role_choices[row_data[3].lower().strip()]
                         new_user_detail.save()
                         success_list.append({'data': row_data, 'status': "Successfully added", "row_idx": str(row[0].row)})
@@ -149,7 +152,7 @@ def upload_single_contact(request):
         return HttpResponseRedirect('/oauth/login/google-oauth2/?next=/')       
 
 def keep_awake(request):
-    return HttpResponse(status=204)
+    return render(request, 'header.html')
 
 def auth_logout(request):
     logout(request)
